@@ -97,8 +97,7 @@ O repositório está organizado devido as responsabilidades que o mesmo oferece.
 * client - será o front-end da aplicação web;
 * database - script com a estrutura das tabelas do mysql;
 * esp8266 - firmware para o nodemcu;
-* server - referente ao back-end da aplicação. Neste caso terá 2 back-ends(poderá escolher 1 para seu uso);
-    * nodejs
+* server - referente ao back-end da aplicação. Neste caso está sendo utilizado o NODEJS.
 
 ### Firmware NodeMCU
 

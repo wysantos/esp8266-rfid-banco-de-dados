@@ -22,7 +22,7 @@ CREATE TABLE `access_log` (
 -- ----------------------------
 -- Records of access_log
 -- ----------------------------
-INSERT INTO `access_log` VALUES ('1', '1', '1', '1', '2017-06-03 08:57:18', '2017-06-03 08:57:26');
+INSERT INTO `access_log` VALUES ('1', '1', '1', '1', '2018-09-13 08:57:18', '2018-09-13 08:57:26');
 
 -- ----------------------------
 -- Table structure for tags
@@ -44,7 +44,7 @@ CREATE TABLE `tags` (
 -- ----------------------------
 -- Records of tags
 -- ----------------------------
-INSERT INTO `tags` VALUES ('1', '1', '12 23 45 56', '1', '2017-06-03 08:57:55', '2017-06-03 08:57:55');
+INSERT INTO `tags` VALUES ('1', '1', '12 23 45 56', '1', '2018-09-13 08:57:55', '2018-09-13 08:57:55');
 
 -- ----------------------------
 -- Table structure for users
@@ -63,5 +63,5 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'Douglas Zuqueto', 'douglas.zuqueto@gmail.com', '2017-06-03 08:58:18', '2017-06-03 08:58:18');
+INSERT INTO `users` VALUES ('1', 'Wanderley Santos', 'wysantos@gmail.com', '2018-09-13 08:58:18', '2018-09-13 08:58:18');
 SET FOREIGN_KEY_CHECKS=1;

@@ -8,7 +8,7 @@ const endpoints = {
 
 const mqttConfig = {
   broker: 'broker.iot-br.com',
-  topic: '/empresas/douglaszuqueto/catraca/entrada/ping',
+  topic: '/rfid/entrada/ping',
   port: 8083
 };
 

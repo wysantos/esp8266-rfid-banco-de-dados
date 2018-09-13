@@ -1,14 +1,13 @@
 # Controle de acesso utilizando NodeMCU, RFID, MQTT e Banco de Dados MySQL
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/rfid.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/rfid.png)
 
 ## Introdução
 
 Este projeto possui como objetivo autenticar/autorizar usuários a partir de Tags RFID utilizando uma **SIMPLES** integração com Banco de Dados.
 
-O projeto visa atender uma pendência que eu já tinha com o tema em questão e também atender uma demanda de usuários da comunidade que buscam por temas do tipo. - Em 1 dia, acho que vi umas 3 pessoas procurando por algo.
-
-Então que comecem os jogos - espero que gostem :)
+Utilizei como base o projeto do Douglas Zuqueto porque achei muito interessante e bem simples de implementar:
+* [esp8266-rfid-banco-de-dados](https://github.com/douglaszuqueto/esp8266-rfid-banco-de-dados/)
 
 ## Materiais utilizados
 
@@ -40,7 +39,7 @@ Então que comecem os jogos - espero que gostem :)
 
 ## Fluxo do projeto
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/rfid.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/rfid.png)
 
 No diagrama acima, pode-se observar qual será o fluxo da aplicação que foi desenvolvida. Parece complicado, mas quando você começa entender como se da a comunicação de redes, você tira de letra uma arquitetura dessas.
 
@@ -50,7 +49,7 @@ Basicamente temos 2 fluxos neste projeto - o **ping** e o **pong**. Ambos serão
 
 O fluxo referente ao **PING**, é o fluxo inicial da comunicação. É a partir dele que toda comunicação começara. Veja a imagem referente abaixo:
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/rfid-ping.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/rfid-ping.png)
 
 
 Basicamente as etapas abaixo serão feitas:
@@ -69,7 +68,7 @@ Basicamente as etapas abaixo serão feitas:
 
 O **PONG** será responsável pelo retorno, ou seja, se a tag lida está ativa/bloqueada ou simplesmente não existe. O resultado será um simples retorno booleano - **0 ou 1**. Veja como ficou o fluxo na imagem abaixo:
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/rfid-pong.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/rfid-pong.png)
 
 
 Portanto, continuando com o fluxo da aplicação, será dado continuidade de acordo com o **5º passo** abordado no tópico acima.
@@ -89,7 +88,7 @@ Portanto, continuando com o fluxo da aplicação, será dado continuidade de aco
 * 1º - Não possui conta no Gihub? Então crie já a sua e comece partilhar seus projetos :) (opcional);
 * 2º - Não deixe de me seguir no Github :p (opcional)
 * 3º - Gostou do projeto? Deixe já seu **Star**;
-* 4º - Enfim - clone o projeto ou realize o download neste [link](https://github.com/douglaszuqueto/esp8266-rfid-banco-de-dados/archive/master.zip) :).
+* 4º - Enfim - clone o projeto ou realize o download neste [link](https://github.com/wysantos/esp8266-rfid-banco-de-dados/archive/master.zip) :).
 
 ## Organização do repositório
 
@@ -100,7 +99,6 @@ O repositório está organizado devido as responsabilidades que o mesmo oferece.
 * esp8266 - firmware para o nodemcu;
 * server - referente ao back-end da aplicação. Neste caso terá 2 back-ends(poderá escolher 1 para seu uso);
     * nodejs
-    * python *(em desenvolvimento)*
 
 ### Firmware NodeMCU
 
@@ -121,13 +119,11 @@ TOPIC_PING - topico utilizado para publicar o valor tag rfid
 TOPIC_PONG - topico responsavel por receber o status da autenticação rfid
 ```
 
-**OBS²** Um adendo ao broker utilizado. Este broker eu tenho implementado em minha VPS para uso pessoal. 
-Você poderá utilizar, porém não garanto uma estabilidade 100% visto que toda hora estou testando algo novo :P.
-A dica é ter seu próprio broker mosquitto em casa ou em alguma VPS.
+**OBS²** Um adendo ao broker utilizado. Foi implementado um container MQTT em conjunto com a aplicação, mas nada impede que seja utilizado um broker que você já tenha em produção. 
 
 #### Esquemático de ligação - RFID + NodeMCU
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/nodemcu-rfid.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/nodemcu-rfid.png)
 
 Com todo circuito do embarcado pronto, agora é só realizar o upload para placa e ficar de olho no monitor serial. Veja se está tudo Ok. 
 Caso estiver, você esta apto a testar suas tags RFID para ver se realmente está tudo certo no que tange o Embarcado. Agora vamos para o próximo tópico.
@@ -152,9 +148,9 @@ Todas url's estão no arquivo **app.js**, localizado em **assets/js/app.js**.
 const apiPath = 'http://127.0.0.1:3000/api'; // caso esteja em localhost, pode deixar assim mesmo.
 
 const mqttConfig = {
-    broker: 'broker.iot-br.com', // url do broker
-    topic: '/empresas/douglaszuqueto/catraca/entrada/ping', // topico ouvinte
-    port: 8083 // porta referente ao WebSockets do Broker
+    broker: 'mqtt-server', // url do broker
+    topic: '/rfid/entrada/ping', // topico ouvinte
+    port: 9001 // porta referente ao WebSockets do Broker
 };
 
 ```
@@ -170,9 +166,7 @@ O nome que atribui ao banco de dados é **rfid**, caso queira poderá escolher o
 
 ### Server
 
-Entrando na parte do back-end, como já deve ter percebido, você terá 2 alternativas. Em Python ou em NodeJS.
-
-Até o momento(05/06/2017), foi desenvolvido apenas em nodejs, assim que der, criarei um utilizando python com Flask.
+Entrando na parte do back-end, foi desenvolvido apenas em nodejs.
 
 #### NodeJS
 
@@ -196,15 +190,15 @@ Perceberás que na raiz do projeto, possui um arquivo **.env.example**, faça um
 Você verá esta estrutura:
 
 ```
-APP_URL=http://127.0.0.1:3000/ // url base do webservice
+APP_URL=http://127.0.0.1:3000/ //url base do webservice
 
-DB_HOST=127.0.0.1 // ip/host do Mysql
-DB_DATABASE=rfid // nome dado ao banco de dados
-DB_USER=rfid // usuário do banco de dados
-DB_PASS=rfid // senha do banco de dados
+DB_HOST=rfid-mysql //host do MySQL
+DB_DATABASE=rfid //nome do banco de dados
+DB_USER=rfid //usuário do banco de dados
+DB_PASS=rfid //senha do banco de dados
 
-BROKER_HOST=broker.iot-br.com // ip/host do broker
-BROKER_PORT=1883 // porta do broker mqtt
+BROKER_HOST=mqtt-server //host do broker mqtt
+BROKER_PORT=1883 //porta do broker mqtt
 ```
 
 Depois de configurado, já está tudo pronto para subir nosso webservice.
@@ -257,19 +251,19 @@ Neste simples caso, irá retornar todas tags cadastradas no sistema :)
 
 ### Home
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-home.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-home.png)
 
 ### Usuários
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-users.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-users.png)
 
 ### Tags
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-tags.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-tags.png)
 
 ### Logs
 
-![img](https://raw.githubusercontent.com/douglaszuqueto/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-logs.png)
+![img](https://raw.githubusercontent.com/wysantos/esp8266-rfid-banco-de-dados/master/files/images/prints/rfid-logs.png)
 
 ## Testando o projeto
 
@@ -280,26 +274,14 @@ Logo em seguida, você deverá cadastrar no sistema, e caso, assim como eu que s
 
 ## Finalizando
 
-Bueno galera, por enquanto era isso, creio que consegui atingir meu objetivo onde o mesmo era demonstrar
-de forma simples como seria uma Autenticação de Tags RFID com banco de dados. Fui um pouco além criando webservice e etc, mas ficou um ecossistema bem bacana.
+Bem pessoal, para meu primeiro projeto em IOT esta foi uma aventura bem legal e consegui aprender bastante; além do mais atingi meu objetivo, demonstrando de forma simples como seria uma Autenticação de Tags RFID com banco de dados. 
 
 Como deu para ver, este projeto é o básico do básico. Não possui nenhuma camada de autenticação de usuários, criptografia, ou seja - segurança em geral.
-
-Outro ponto que já me perguntaram era sobre o cadastro automático da tag através do embarcado, leds, lcd e etc - logo de fato foquei no real objetivo.
- 
-Pretendo fazer um projeto mais completo caso haja um certo interesse por parte da comunidade,
-confesso que foi um projeto bem bacana de desenvolver, mesmo com toda 'simplicidade' envolvida.
 
 Vou ficando por aqui, qualquer feedback, dúvida - já sabem onde me encontrar. Então se curtiu realmente o projeto, não deixe de deixar aquele Star no repositório :). É muito importante para avaliar qual foi o grau de contribuição que o mesmo causou.
 
 ## Referências
 
+* [Controle de acesso utilizando NodeMCU, RFID, MQTT e Banco de Dados MySQL](https://github.com/douglaszuqueto/esp8266-rfid-banco-de-dados/);
+
 * [Controle de acesso com NodeMCU + RFID](https://jualabs.wordpress.com/2016/09/26/controle-de-acesso-com-nodemcu-rfid/);
-
-**Não esqueça de acompanhar o blog :): https://douglaszuqueto.com**
-
-## Gostou do projeto?
-
-Caso tenha gostado deste e de outros projetos que mantenho, no dia 18/06/2017 abri uma campanha de financiamento recorrente com o objetivo de captar recursos para uma dedicação fulltime em projetos open source.
- 
-Portanto, caso deseja me ajudar, fica aqui o [link do meu Apoia.se](https://apoia.se/douglaszuqueto). Desde já, muito obrigado :D.

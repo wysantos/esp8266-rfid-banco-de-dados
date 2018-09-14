@@ -40,7 +40,7 @@ services:
       - MYSQL_USER=rfid
       - MYSQL_PASSWORD=rfid
 
-  rfid- mqtt:
+  rfid-mqtt:
     image: eclipse-mosquitto
     container_name: rfid-mqtt
     restart: unless-stopped
@@ -51,5 +51,4 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
-
 

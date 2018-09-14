@@ -267,7 +267,8 @@ protocol websockets
 Ajuste as permissões de dono e grupo das pastas par que o eclipse-mqtt possa levantar no container:
 
 ```
-chmod -R 100:101 ./rfid-mqtt
+$ cd ..
+$ sudo chown -R 100:101 ./rfid-mqtt
 ```
 
 #### PHPMyAdmin

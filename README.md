@@ -361,7 +361,9 @@ Logo em seguida, você deverá cadastrar no sistema, e caso, assim como eu que s
 
 Bem pessoal, para meu primeiro projeto em IOT esta foi uma aventura bem legal e consegui aprender bastante; além do mais atingi meu objetivo, demonstrando de forma simples como seria uma Autenticação de Tags RFID com banco de dados. 
 
-Como deu para ver, este projeto é o básico do básico. Não possui nenhuma camada de autenticação de usuários, criptografia, ou seja - segurança em geral.
+Como deu para ver, este projeto é o básico do básico. Não possui nenhuma camada de autenticação de usuários em banco de dados, criptografia, ou seja - segurança em geral.
+* Habilitei apenas uma autenticação básica para acesso ao site, só pra não ficar todo aberto (rfid / rfid).
+** Caso queiram mudar, basta alterar o arquivo "Caddyfile".
 
 Vou ficando por aqui, qualquer feedback, dúvida - já sabem onde me encontrar. Então se curtiu realmente o projeto, não deixe de deixar aquele Star no repositório :). É muito importante para avaliar qual foi o grau de contribuição que o mesmo causou.
 

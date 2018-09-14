@@ -1,5 +1,6 @@
 const tagsTable = document.getElementById('tags-table');
 const tagInput = $('#tag');
+const id_userInput = $('#id_user');
 const stateChebox = $('#state');
 const idInput = $('#id');
 
@@ -45,6 +46,7 @@ const updateTable = () => {
 const resetForm = () => {
   idInput.val('');
   tagInput.val('');
+  id_userInput.val('');
 
   updateTable();
 
@@ -57,6 +59,7 @@ const createOrUpdate = () => {
 
   const data = {
     tag: tagInput.val(),
+    id_user: id_userInput.val(),
     state: stateChebox.is(':checked') ? 1 : 0
   };
 
@@ -107,6 +110,7 @@ $(document).ready(() => {
       .then((tag) => tag.data)
       .then((tag) => {
         idInput.val(tag.id);
+        id_userInput.val(tag.id_user);
         tagInput.val(tag.tag);
         stateChebox.prop('checked', tag.state);
 

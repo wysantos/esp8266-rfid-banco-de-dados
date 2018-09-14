@@ -15,13 +15,13 @@ const searchByTag = (tag) => {
 };
 
 const create = (data) => {
-  const query = `INSERT INTO ${table} (id_user, tag) VALUES (1, '${data.tag}');`;
+  const query = `INSERT INTO ${table} (id_user, tag) VALUES ('${data.id_user}', '${data.tag}');`;
 
   return db.query(query);
 };
 
 const update = (id, data) => {
-  const query = `UPDATE ${table} SET tag = '${data.tag}', state = ${data.state} WHERE id = ${id};`;
+  const query = `UPDATE ${table} SET tag = '${data.tag}', id_user = '${data.id_user}', state = ${data.state} WHERE id = ${id};`;
 
   return db.query(query);
 };

@@ -10,6 +10,8 @@ services:
       - ./client:/srv
     ports:
       - "80:2015"
+    links:
+      - rfid-mqtt
 
   # WebService - NodeJS
   rfid-server:
@@ -55,7 +57,6 @@ services:
       - "1883:1883"
       - "9001:9001"
 
-
   phpmyadmin:
     container_name: phpmyadmin
     image: bitnami/phpmyadmin:latest
@@ -69,4 +70,3 @@ services:
       kompose.service.type: nodeport
     volumes:
       - ./phpmyadmin_data:/bitnami
-

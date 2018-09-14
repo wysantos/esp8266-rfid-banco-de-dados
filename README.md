@@ -287,6 +287,12 @@ Adicione a linha abaixo no final do arquivo:
 $cfg ['TempDir'] = '/tmp/';
 ````
 
+Uma vez que o conjunto inteiro esteja rodando, você poderá acessar o PHPMyAdmin através do endereço:
+
+https://localhost
+
+Com com o usuário e senha cadastrados no docker-compose.yml, no nosso caso "root / root".
+
 
 ## Endpoints
 

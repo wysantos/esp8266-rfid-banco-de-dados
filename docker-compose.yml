@@ -55,3 +55,18 @@ services:
       - "1883:1883"
       - "9001:9001"
 
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: bitnami/phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=America/Recife
+    ports:
+      - 443:443
+    labels:
+      kompose.service.type: nodeport
+    volumes:
+      - ./phpmyadmin_data:/bitnami
+

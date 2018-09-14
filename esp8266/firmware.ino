@@ -12,12 +12,12 @@
 const char* SSID = "YOUR_SSID"; // rede wifi
 const char* PASSWORD = "YOUR_PASS"; // senha da rede wifi
 
-const char* BROKER_MQTT = "broker.iot-br.com"; // ip/host do broker
+const char* BROKER_MQTT = "host_do_broker ou host_do_docker"; // ip/host do broker
 int BROKER_PORT = 1883; // porta do broker
 
-const char* TOPIC_PING = "/empresas/douglaszuqueto/catraca/entrada/ping";
+const char* TOPIC_PING = "/rfid/entrada/ping";
 
-const char* TOPIC_PONG = "/empresas/douglaszuqueto/catraca/entrada/pong";
+const char* TOPIC_PONG = "/rfid/entrada/pong";
 
 // PROTOTYPES
 void initPins();
@@ -112,7 +112,7 @@ void reconnectMQTT() {
     Serial.println("Tentando se conectar ao Broker MQTT: " + String(BROKER_MQTT));
     if (MQTT.connect("ESP8266-ESP12-E")) {
       Serial.println("Conectado");
-      MQTT.subscribe("/empresas/douglaszuqueto/catraca/entrada/pong");
+      MQTT.subscribe("/rfid/entrada/pong");
 
     } else {
       Serial.println("Falha ao Reconectar");

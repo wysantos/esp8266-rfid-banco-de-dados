@@ -5,6 +5,7 @@ services:
   rfid-client:
     image: abiosoft/caddy
     container_name: rfid-client
+    restart: unless-stopped
     volumes:
       - ./client:/srv
     ports:
@@ -15,6 +16,7 @@ services:
     image: ambientum/node
     container_name: rfid-server
     command: node index.js
+    restart: unless-stopped
     volumes:
       - ./server/nodejs:/var/www/app
     ports:
@@ -30,6 +32,7 @@ services:
   rfid-mysql:
     image: ambientum/mysql:5.7
     container_name: rfid-mysql
+    restart: unless-stopped
     volumes:
       - ./rfid-mysql-data:/var/lib/mysql
     ports:

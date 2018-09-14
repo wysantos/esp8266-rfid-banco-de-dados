@@ -212,7 +212,7 @@ Caso esteja utilizando o container docker que acompanha o projeto, execute os co
 
 ```
 
-Se deu tudo certo, você terá acesso ao webservice rodando na url **127.0.0.1:3000/api**. No tópico **Endpoints**, será tratado de caso recurso disponível.
+Se deu tudo certo, você terá acesso ao webservice rodando na url **127.0.0.1:3000/api**. No tópico **Endpoints**, será tratado de cada recurso disponível.
 
 #### MQTT
 

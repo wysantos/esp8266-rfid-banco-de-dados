@@ -4,8 +4,8 @@ const mqtt = require('mqtt')
 
 const client = mqtt.connect(`mqtt://${config.broker.host}`);
 
-const rfidPingTopic = '/empresas/douglaszuqueto/catraca/entrada/ping';
-const rfidPongTopic = '/empresas/douglaszuqueto/catraca/entrada/pong';
+const rfidPingTopic = '/rfid/entrada/ping';
+const rfidPongTopic = '/rfid/entrada/pong';
 
 client.on('connect', () => {
   console.log(`Connection successfully to ${config.broker.host}`);

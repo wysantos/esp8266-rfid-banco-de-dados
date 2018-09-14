@@ -1,14 +1,8 @@
 version: '3'
 
-# Named volumes
-volumes:
-  # MySQL Data
-  rfid-mysql-data:
-    driver: local
-
 services:
   # Client
-  client:
+  rfid-client:
     image: abiosoft/caddy
     container_name: rfid-client
     volumes:
@@ -17,7 +11,7 @@ services:
       - "80:2015"
 
   # WebService - NodeJS
-  server:
+  rfid-server:
     image: ambientum/node
     container_name: rfid-server
     command: node index.js
@@ -26,25 +20,18 @@ services:
     ports:
       - "3000:3000"
     links:
-      - mysql
+      - rfid-mysql
+      - rfid-mqtt
     depends_on:
-      - mysql
-  # WebService - Python
-#  server:
-#    container_name: rfid-server
-#    volumes:
-#      - ./server/python:/var/www/app
-#    ports:
-#      - "3000:3000"
-#    links:
-#      - mysql
+      - rfid-mysql
+      - rfid-mqtt
 
   # MySQL (5.7)
-  mysql:
+  rfid-mysql:
     image: ambientum/mysql:5.7
     container_name: rfid-mysql
     volumes:
-      - rfid-mysql-data:/var/lib/mysql
+      - ./rfid-mysql-data:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:
@@ -52,3 +39,17 @@ services:
       - MYSQL_DATABASE=rfid
       - MYSQL_USER=rfid
       - MYSQL_PASSWORD=rfid
+
+  rfid- mqtt:
+    image: eclipse-mosquitto
+    container_name: rfid-mqtt
+    restart: unless-stopped
+    volumes:
+      - ./rfid-mqtt/config:/mosquitto/config
+      - ./rfid-mqtt/data:/mosquitto/data
+      - ./rfid-mqtt/log:/mosquitto/log  
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+

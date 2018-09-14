@@ -212,6 +212,10 @@ Caso esteja utilizando o container docker que acompanha o projeto, execute os co
 $ docker run --rm -ti -v "$PWD/server/nodejs:/var/www/app" ambientum/node
 ```
 
+```
+ambientum@0be88902638e:/var/www/app$ yarn
+```
+
 Se deu tudo certo, você terá acesso ao webservice rodando na url **127.0.0.1:3000/api**. No tópico **Endpoints**, será tratado de cada recurso disponível.
 
 #### MQTT

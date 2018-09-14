@@ -209,7 +209,7 @@ Para isso, apenas rode o comando **yarn prod**(um alias do comando **node index*
 Caso esteja utilizando o container docker que acompanha o projeto, execute os comandos abaixo para subir o container isoladamente e preparar o ambiente, depois poderá utilizar todo o conjunto via docker-compose:
 
 ```
-
+$ docker run --rm -ti -v "$PWD/server/nodejs:/var/www/app" ambientum/node
 ```
 
 Se deu tudo certo, você terá acesso ao webservice rodando na url **127.0.0.1:3000/api**. No tópico **Endpoints**, será tratado de cada recurso disponível.

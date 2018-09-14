@@ -10,8 +10,6 @@ services:
       - ./client:/srv
     ports:
       - "80:2015"
-    links:
-      - rfid-mqtt
 
   # WebService - NodeJS
   rfid-server:
@@ -25,10 +23,8 @@ services:
       - "3000:3000"
     links:
       - rfid-mysql
-      - rfid-mqtt
     depends_on:
       - rfid-mysql
-      - rfid-mqtt
 
   # MySQL (5.7)
   rfid-mysql:

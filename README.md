@@ -149,7 +149,7 @@ Todas url's estão no arquivo **app.js**, localizado em **assets/js/app.js**.
 const apiPath = 'http://127.0.0.1:3000/api'; // caso esteja em localhost, pode deixar assim mesmo.
 
 const mqttConfig = {
-    broker: 'rfid-mqtt', // url do broker
+    broker: 'ip_do_mqtt ou ip_host_docker', // url do broker
     topic: '/rfid/entrada/ping', // topico ouvinte
     port: 9001 // porta referente ao WebSockets do Broker
 };
@@ -198,7 +198,7 @@ DB_DATABASE=rfid //nome do banco de dados
 DB_USER=rfid //usuário do banco de dados
 DB_PASS=rfid //senha do banco de dados
 
-BROKER_HOST=rfid-mqtt //host do broker mqtt
+BROKER_HOST=ip_do_mqtt ou ip_host_docker //host do broker mqtt
 BROKER_PORT=1883 //porta do broker mqtt
 ```
 

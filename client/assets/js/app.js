@@ -7,7 +7,7 @@ const endpoints = {
 };
 
 const mqttConfig = {
-  broker: 'rfid-mqtt',
+  broker: '192.168.0.12',
   topic: '/rfid/entrada/ping',
   port: 9001
 };

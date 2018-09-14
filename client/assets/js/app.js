@@ -7,9 +7,9 @@ const endpoints = {
 };
 
 const mqttConfig = {
-  broker: 'broker.iot-br.com',
+  broker: 'rfid-mqtt',
   topic: '/rfid/entrada/ping',
-  port: 8083
+  port: 9001
 };
 
 const http = axios.create({

@@ -1,3 +1,19 @@
+/*
+**************************PINAGEM****************************************************************************
+  
+  RFID-RC522   Wemos          Nodemcu
+RST/Reset RST  D1  [1*]        D1 [1*]      GPIO-5  [1*]
+SPI SS  SDA[3] D2  [2*]        D2 [2*]      GPIO-4 [2*]
+SPI MOSI MOSI  D7              D7           GPIO-13
+SPI MISO MISO  D6              D6           GPIO-12
+SPI SCK SCK    D5              D5           GPIO-14
+
+[1*] (1, 2) Configuracao tipica definindo como RST_PIN no sketch / programa.
+[2*] (1, 2) Configuracao, tipica definindo como SS_PIN no sketch / programa.
+[3*] O pino SDA pode ser rotulado como SS em algumas placas de MFRC522 / mais antigas, significam a mesma coisa.
+******************************************************************************************************************
+ */
+
 // LIBRARYS
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -7,6 +23,7 @@
 // DEFINES
 #define RST_PIN 5
 #define SS_PIN 4
+#define LED D3
 
 // VARIABLES
 const char* SSID = "YOUR_SSID"; // rede wifi
@@ -37,7 +54,7 @@ void setup() {
   initWiFi();
   initMQTT();
   initRfid();
-
+  pinMode(LED,OUTPUT);
 }
 
 void loop() {
@@ -104,6 +121,17 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println("Tópico => " + String(topic) + " | Valor => " + String(message));
 
+Serial.println(String(message));
+
+if (String(message) == "1") //UID 1 - Cartao
+  {
+    Serial.println("Liberado !");
+    Serial.println();
+    digitalWrite(LED, LOW);     // LIGA LED OU/ ativa rele, abre trava solenoide
+    delay(3000);              // DELAY /espera 3 segundos
+    digitalWrite(LED, HIGH);  // DESlIGA LED OU /desativa rele, fecha  trava solenoide
+  }
+
   Serial.flush();
 }
 
@@ -143,4 +171,6 @@ void rfidProcess()
   conteudo.toCharArray(UUID, 9);
   Serial.println(conteudo);
   MQTT.publish(TOPIC_PING, UUID);
+
+
 }

@@ -97,7 +97,9 @@ O repositório está organizado devido as responsabilidades que o mesmo oferece.
 * client - será o front-end da aplicação web;
 * database - script com a estrutura das tabelas do mysql;
 * esp8266 - firmware para o nodemcu;
-* server - referente ao back-end da aplicação. Neste caso está sendo utilizado o NODEJS.
+* server - referente ao back-end da aplicação. Neste caso está sendo utilizado o NODEJS;
+* mqtt_data - referente aos logs, database e configurações do broker mqtt;
+* phpmyadmin_data - referente aos arquivos do PHPMyAdmin.
 
 ### Firmware NodeMCU
 
@@ -147,7 +149,7 @@ Todas url's estão no arquivo **app.js**, localizado em **assets/js/app.js**.
 const apiPath = 'http://127.0.0.1:3000/api'; // caso esteja em localhost, pode deixar assim mesmo.
 
 const mqttConfig = {
-    broker: 'mqtt-server', // url do broker
+    broker: 'rfid-mqtt', // url do broker
     topic: '/rfid/entrada/ping', // topico ouvinte
     port: 9001 // porta referente ao WebSockets do Broker
 };
@@ -165,7 +167,7 @@ O nome que atribui ao banco de dados é **rfid**, caso queira poderá escolher o
 
 ### Server
 
-Entrando na parte do back-end, foi desenvolvido apenas em nodejs.
+Por enquanto o back-end foi desenvolvido apenas em nodejs.
 
 #### NodeJS
 
@@ -196,7 +198,7 @@ DB_DATABASE=rfid //nome do banco de dados
 DB_USER=rfid //usuário do banco de dados
 DB_PASS=rfid //senha do banco de dados
 
-BROKER_HOST=mqtt-server //host do broker mqtt
+BROKER_HOST=rfid-mqtt //host do broker mqtt
 BROKER_PORT=1883 //porta do broker mqtt
 ```
 
@@ -204,9 +206,82 @@ Depois de configurado, já está tudo pronto para subir nosso webservice.
 
 Para isso, apenas rode o comando **yarn prod**(um alias do comando **node index**)
 
+Caso esteja utilizando o container docker que acompanha o projeto, execute os comandos abaixo para subir o container isoladamente e preparar o ambiente, depois poderá utilizar todo o conjunto via docker-compose:
+
+```
+
+```
+
 Se deu tudo certo, você terá acesso ao webservice rodando na url **127.0.0.1:3000/api**. No tópico **Endpoints**, será tratado de caso recurso disponível.
 
-#### Python (em desenvolvimento)
+#### MQTT
+
+Antes de iniciar o container do bkoker mqtt será necessário criarmos a estrutura de arquivos necessária para ele rodar:
+
+````
+$ sudo mkdir rfid-mqtt && cd $_
+$ sudo  mkdir {config,data,log}
+$ sudo  mkdir config/conf.d
+$ sudo touch config/mosquitto.conf 
+$ sudo touch config/conf.d/websockets.conf 
+````
+
+Edite o arquivo de configuração "config/mosquitto.conf" e inclua as informações abaixo:
+
+````
+# Save persistent message data to disk (true/false).
+persistence true
+
+# name of the file for persistence
+persistence_file mosquitto.db
+
+#location of the persistence file
+persistence_location /mosquitto/data/
+
+#how often to save to the persistence file
+autosave_interval 1800
+
+# turn on anonymous users 
+allow_anonymous true
+
+#logging
+log_timestamp true
+log_dest file /mosquitto/log/mosquitto.log
+
+include_dir /mosquitto/config/conf.d
+listener 1883
+
+````
+
+Edite o arquivo de configuração "config/conf.d/websockets.conf" e inclua as informações abaixo:
+
+```
+listener 9001
+protocol websockets
+```
+
+Ajuste as permissões de dono e grupo das pastas par que o eclipse-mqtt possa levantar no container:
+
+```
+chmod -R 100:101 ./rfid-mqtt
+```
+
+#### PHPMyAdmin
+
+Após subir a aplicação, edite o arquivo de configuração "esp8266-rfid-banco-de-dados/phpmyadmin_data/phpmyadmin/config.inc.php":
+
+Ajuste o host do banco de dados:
+
+```
+$cfg['Servers'][$i]['host'] = 'rfid-mysql';
+```
+
+Adicione a linha abaixo no final do arquivo:
+
+````
+$cfg ['TempDir'] = '/tmp/';
+````
+
 
 ## Endpoints
 
